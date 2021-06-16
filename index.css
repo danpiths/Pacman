@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Roboto Mono", monospace;
+  background: #222;
+  color: #b6b6b6;
+  text-align: center;
+}
+
+h1 {
+  font-size: 4.5rem;
+  font-weight: 200;
+  margin-bottom: 0.1em;
+}
+
+h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1em;
+}
+
+#score {
+  font-weight: 200;
+}
+
+.grid {
+  margin: 0 auto;
+}
