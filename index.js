@@ -115,6 +115,7 @@ const pacdotEaten = () => {
   }
 };
 
+// POWER PELLET EATING FUNCTION
 const powerPelletEaten = () => {
   if (gridSquares[pacmanCurrentIndex].classList.contains("power-pellet")) {
     gridSquares[pacmanCurrentIndex].classList.remove("power-pellet");
