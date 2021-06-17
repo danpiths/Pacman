@@ -6,6 +6,7 @@ const gameResultText = document.getElementById("game-result-text");
 const width = 28;
 const gridSquares = [];
 let pacmanCurrentIndex = 490;
+let score = 0;
 
 // CREATING CREATE BOARD FUNCTION
 const createBoard = () => {
@@ -88,5 +89,15 @@ const controls = (e) => {
       break;
   }
   gridSquares[pacmanCurrentIndex].classList.add("pacman");
+  pacdotEaten();
 };
 document.addEventListener("keydown", controls);
+
+// PACDOT EATING FUNCTION
+const pacdotEaten = () => {
+  if (gridSquares[pacmanCurrentIndex].classList.contains('pacdot')) {
+    gridSquares[pacmanCurrentIndex].classList.remove('pacdot');
+    score++;
+    scoreDisplay.innerHTML = score;
+  }
+}
