@@ -56,9 +56,10 @@ h3 {
 }
 
 .pacman {
-  background: yellowgreen;
+  background: #cfcf2e;
   border: 1px solid #222;
   border-radius: 50%;
+  box-sizing: border-box;
 }
 
 #game-result-text {

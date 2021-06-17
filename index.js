@@ -5,6 +5,7 @@ const grid = document.querySelector(".grid");
 const gameResultText = document.getElementById("game-result-text");
 const width = 28;
 const gridSquares = [];
+let pacmanCurrentIndex = 490;
 
 // CREATING CREATE BOARD FUNCTION
 const createBoard = () => {
@@ -23,6 +24,7 @@ const createBoard = () => {
       gridSquares[i].classList.add("power-pellet");
     }
   }
+  gridSquares[pacmanCurrentIndex].classList.add("pacman");
 };
 
 // CALLING CREATE BOARD
