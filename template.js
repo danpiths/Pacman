@@ -39,7 +39,7 @@ export const layout = [
 ];
 
 export class Ghost {
-  constructor (className, startIndex, speed) {
+  constructor(className, startIndex, speed) {
     this.className = className;
     this.startIndex = startIndex;
     this.speed = speed;
