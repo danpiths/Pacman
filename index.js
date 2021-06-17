@@ -127,3 +127,33 @@ const powerPelletEaten = () => {
     }, 10000);
   }
 };
+
+// MOVING GHOSTS
+const moveGhost = (ghost) => {
+  const directions = [-1, +1, -width, +width];
+  let moveDirection = directions[Math.floor(Math.random() * directions.length)];
+
+  ghost.timerId = setInterval(() => {
+    if (
+      !gridSquares[ghost.currentIndex + moveDirection].classList.contains('wall') &&
+      !gridSquares[ghost.currentIndex + moveDirection].classList.contains('ghost')
+    ) {
+      gridSquares[ghost.currentIndex].classList.remove(ghost.className);
+      gridSquares[ghost.currentIndex].classList.remove('ghost', 'scared-ghost');
+      ghost.currentIndex += moveDirection;
+      gridSquares[ghost.currentIndex].classList.add(ghost.className);
+      gridSquares[ghost.currentIndex].classList.add('ghost');
+    } else {moveDirection = directions[Math.floor(Math.random() * directions.length)]}
+
+    // IF GHOST IS SCARED
+    if (ghost.isScared) {gridSquares[ghost.currentIndex].classList.add('scared-ghost')};
+    if (ghost.isScared && gridSquares[ghost.currentIndex].classList.contains('pacman')) {
+      gridSquares[ghost.currentIndex].classList.remove(ghost.className, 'ghost', 'scared-ghost');
+      ghost.currentIndex = ghost.startIndex;
+      gridSquares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
+      score += 100;
+      scoreDisplay.innerHTML = score;
+    }
+  }, ghost.speed)
+}
+ghosts.forEach((ghost) => {moveGhost(ghost)});
