@@ -29,3 +29,64 @@ const createBoard = () => {
 
 // CALLING CREATE BOARD
 createBoard();
+
+// ADDING CONTROLS
+const controls = (e) => {
+  gridSquares[pacmanCurrentIndex].classList.remove("pacman");
+  switch (e.code) {
+    case "KeyW":
+    case "ArrowUp":
+      if (
+        !gridSquares[pacmanCurrentIndex - width].classList.contains(
+          "ghost-lair"
+        ) &&
+        !gridSquares[pacmanCurrentIndex - width].classList.contains("wall") &&
+        pacmanCurrentIndex - width >= 0
+      ) {
+        pacmanCurrentIndex -= width;
+      }
+      break;
+    case "KeyA":
+    case "ArrowLeft":
+      if (
+        !gridSquares[pacmanCurrentIndex - 1].classList.contains("ghost-lair") &&
+        !gridSquares[pacmanCurrentIndex - 1].classList.contains("wall") &&
+        pacmanCurrentIndex % width !== 0
+      ) {
+        pacmanCurrentIndex -= 1;
+      }
+
+      if (pacmanCurrentIndex === 364) {
+        pacmanCurrentIndex = 391;
+      }
+      break;
+    case "KeyS":
+    case "ArrowDown":
+      if (
+        !gridSquares[pacmanCurrentIndex + width].classList.contains(
+          "ghost-lair"
+        ) &&
+        !gridSquares[pacmanCurrentIndex + width].classList.contains("wall") &&
+        pacmanCurrentIndex + width < width * width
+      ) {
+        pacmanCurrentIndex += width;
+      }
+      break;
+    case "KeyD":
+    case "ArrowRight":
+      if (
+        !gridSquares[pacmanCurrentIndex + 1].classList.contains("ghost-lair") &&
+        !gridSquares[pacmanCurrentIndex + 1].classList.contains("wall") &&
+        pacmanCurrentIndex % width < width - 1
+      ) {
+        pacmanCurrentIndex += 1;
+      }
+
+      if (pacmanCurrentIndex === 391) {
+        pacmanCurrentIndex = 364;
+      }
+      break;
+  }
+  gridSquares[pacmanCurrentIndex].classList.add("pacman");
+};
+document.addEventListener("keydown", controls);
