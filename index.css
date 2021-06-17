@@ -19,9 +19,18 @@ h1 {
 h3 {
   font-size: 1.5rem;
   margin-bottom: 1em;
+  display: inline-block;
+}
+
+.high-score-h3 {
+  margin-left: 1.5em;
 }
 
 #score {
+  font-weight: 200;
+}
+
+#high-score {
   font-weight: 200;
 }
 

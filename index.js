@@ -1,14 +1,17 @@
 // VARIABLE DECLARATION
 import { layout, Ghost } from "./template.js";
 const scoreDisplay = document.getElementById("score");
+const highScoreDisplay = document.getElementById("high-score");
 const grid = document.querySelector(".grid");
 const gameResultText = document.getElementById("game-result-text");
 const width = 28;
 const gridSquares = [];
+const highScoreFromLS = JSON.parse(localStorage.getItem("highscore"));
 let pacmanCurrentIndex = 490;
 let score = 0;
 let gameWon = false;
 let extraCheck = true;
+let highscore;
 
 // CREATING GHOSTS
 const ghosts = [
@@ -20,6 +23,10 @@ const ghosts = [
 
 // CREATING CREATE BOARD FUNCTION
 const createBoard = () => {
+  if (highScoreFromLS) {
+    highscore = highScoreFromLS;
+    highScoreDisplay.innerHTML = highscore;
+  }
   for (let i = 0; i < layout.length; i++) {
     const square = document.createElement("div");
     grid.appendChild(square);
@@ -195,6 +202,9 @@ const checkGameOver = () => {
     document.removeEventListener("keydown", controls);
     gameResultText.innerHTML = `<h2 id="game-over">Game Over</h2>`;
     gameResultText.style.display = "block";
+    if (highScoreFromLS < score) {
+      localStorage.setItem("highscore", JSON.stringify(score));
+    }
   }
 };
 
@@ -218,5 +228,8 @@ const checkWinGame = () => {
     document.removeEventListener("keydown", controls);
     gameResultText.innerHTML = `<h2 id="game-won">You Won</h2>`;
     gameResultText.style.display = "block";
+    if (highScoreFromLS < score) {
+      localStorage.setItem("highscore", JSON.stringify(score));
+    }
   }
 };
