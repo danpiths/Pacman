@@ -202,11 +202,11 @@ const checkGameOver = () => {
 const checkWinGame = () => {
   for (let i = 0; i < gridSquares.length; i++) {
     if (
-      gridSquares[i].classList.contains('pacdot') ||
-      gridSquares[i].classList.contains('power-pellet')
-      ) {
-        extraCheck = false;
-      }
+      gridSquares[i].classList.contains("pacdot") ||
+      gridSquares[i].classList.contains("power-pellet")
+    ) {
+      extraCheck = false;
+    }
   }
   if (extraCheck) {
     gameWon = true;
@@ -219,4 +219,4 @@ const checkWinGame = () => {
     gameResultText.innerHTML = `<h2 id="game-won">You Won</h2>`;
     gameResultText.style.display = "block";
   }
-}
+};
