@@ -10,10 +10,10 @@ let score = 0;
 
 // CREATING GHOSTS
 const ghosts = [
-  new Ghost("blinky", 347, 250),
-  new Ghost("pinky", 403, 400),
-  new Ghost("inky", 352, 300),
-  new Ghost("clyde", 408, 500),
+  new Ghost("blinky", 377, 250),
+  new Ghost("pinky", 405, 400),
+  new Ghost("inky", 378, 300),
+  new Ghost("clyde", 406, 500),
 ];
 
 // CREATING CREATE BOARD FUNCTION
@@ -138,41 +138,58 @@ const moveGhost = (ghost) => {
 
   ghost.timerId = setInterval(() => {
     if (
-      !gridSquares[ghost.currentIndex + moveDirection].classList.contains('wall') &&
-      !gridSquares[ghost.currentIndex + moveDirection].classList.contains('ghost')
+      !gridSquares[ghost.currentIndex + moveDirection].classList.contains(
+        "wall"
+      ) &&
+      !gridSquares[ghost.currentIndex + moveDirection].classList.contains(
+        "ghost"
+      )
     ) {
       gridSquares[ghost.currentIndex].classList.remove(ghost.className);
-      gridSquares[ghost.currentIndex].classList.remove('ghost', 'scared-ghost');
+      gridSquares[ghost.currentIndex].classList.remove("ghost", "scared-ghost");
       ghost.currentIndex += moveDirection;
       gridSquares[ghost.currentIndex].classList.add(ghost.className);
-      gridSquares[ghost.currentIndex].classList.add('ghost');
-    } else {moveDirection = directions[Math.floor(Math.random() * directions.length)]}
+      gridSquares[ghost.currentIndex].classList.add("ghost");
+    } else {
+      moveDirection = directions[Math.floor(Math.random() * directions.length)];
+    }
 
     // IF GHOST IS SCARED
-    if (ghost.isScared) {gridSquares[ghost.currentIndex].classList.add('scared-ghost')};
-    if (ghost.isScared && gridSquares[ghost.currentIndex].classList.contains('pacman')) {
-      gridSquares[ghost.currentIndex].classList.remove(ghost.className, 'ghost', 'scared-ghost');
+    if (ghost.isScared) {
+      gridSquares[ghost.currentIndex].classList.add("scared-ghost");
+    }
+    if (
+      ghost.isScared &&
+      gridSquares[ghost.currentIndex].classList.contains("pacman")
+    ) {
+      gridSquares[ghost.currentIndex].classList.remove(
+        ghost.className,
+        "ghost",
+        "scared-ghost"
+      );
       ghost.currentIndex = ghost.startIndex;
-      gridSquares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
+      gridSquares[ghost.currentIndex].classList.add(ghost.className, "ghost");
       score += 100;
       scoreDisplay.innerHTML = score;
     }
 
     // CALLING FUNCTIONS
     checkGameOver();
-  }, ghost.speed)
-}
-ghosts.forEach((ghost) => {moveGhost(ghost)});
+  }, ghost.speed);
+};
+ghosts.forEach((ghost) => {
+  moveGhost(ghost);
+});
 
 // CHECKING FOR GAME OVER
 const checkGameOver = () => {
   if (
-    gridSquares[pacmanCurrentIndex].classList.contains('ghost') &&
-    !gridSquares[pacmanCurrentIndex].classList.contains('scared-ghost')
+    gridSquares[pacmanCurrentIndex].classList.contains("ghost") &&
+    !gridSquares[pacmanCurrentIndex].classList.contains("scared-ghost")
   ) {
     ghosts.forEach((ghost) => clearInterval(ghost.timerId));
-    document.removeEventListener('keydown', controls);
-    gameResultText.innerHTML = `<h2 id="game-over">Game Over</h2>`
-    gameResultText.style.display = 'block';
+    document.removeEventListener("keydown", controls);
+    gameResultText.innerHTML = `<h2 id="game-over">Game Over</h2>`;
+    gameResultText.style.display = "block";
   }
-}
+};
