@@ -113,3 +113,12 @@ h3 {
   color: salmon;
   font-weight: 400;
 }
+
+#game-won {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: yellowgreen;
+  font-weight: 400;
+}

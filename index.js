@@ -7,6 +7,8 @@ const width = 28;
 const gridSquares = [];
 let pacmanCurrentIndex = 490;
 let score = 0;
+let gameWon = false;
+let extraCheck = true;
 
 // CREATING GHOSTS
 const ghosts = [
@@ -106,6 +108,7 @@ const controls = (event) => {
   pacdotEaten();
   powerPelletEaten();
   checkGameOver();
+  checkWinGame();
 };
 document.addEventListener("keydown", controls);
 
@@ -175,6 +178,7 @@ const moveGhost = (ghost) => {
 
     // CALLING FUNCTIONS
     checkGameOver();
+    checkWinGame();
   }, ghost.speed);
 };
 ghosts.forEach((ghost) => {
@@ -193,3 +197,26 @@ const checkGameOver = () => {
     gameResultText.style.display = "block";
   }
 };
+
+// CHECKING FOR GAME WON
+const checkWinGame = () => {
+  for (let i = 0; i < gridSquares.length; i++) {
+    if (
+      gridSquares[i].classList.contains('pacdot') ||
+      gridSquares[i].classList.contains('power-pellet')
+      ) {
+        extraCheck = false;
+      }
+  }
+  if (extraCheck) {
+    gameWon = true;
+  } else {
+    extraCheck = true;
+  }
+  if (gameWon) {
+    ghosts.forEach((ghost) => clearInterval(ghost.timerId));
+    document.removeEventListener("keydown", controls);
+    gameResultText.innerHTML = `<h2 id="game-won">You Won</h2>`;
+    gameResultText.style.display = "block";
+  }
+}
