@@ -6,7 +6,7 @@ const grid = document.querySelector(".grid");
 const gameResultText = document.getElementById("game-result-text");
 const width = 28;
 const gridSquares = [];
-const highScoreFromLS = JSON.parse(localStorage.getItem("highscore"));
+let highScoreFromLS = JSON.parse(localStorage.getItem("highscore"));
 let pacmanCurrentIndex = 490;
 let score = 0;
 let gameWon = false;
@@ -204,6 +204,9 @@ const checkGameOver = () => {
     gameResultText.style.display = "block";
     if (highScoreFromLS < score) {
       localStorage.setItem("highscore", JSON.stringify(score));
+      highScoreFromLS = JSON.parse(localStorage.getItem("highscore"));
+      highscore = highScoreFromLS;
+      highScoreDisplay.innerHTML = highscore;
     }
   }
 };
@@ -230,6 +233,9 @@ const checkWinGame = () => {
     gameResultText.style.display = "block";
     if (highScoreFromLS < score) {
       localStorage.setItem("highscore", JSON.stringify(score));
+      highScoreFromLS = JSON.parse(localStorage.getItem("highscore"));
+      highscore = highScoreFromLS;
+      highScoreDisplay.innerHTML = highscore;
     }
   }
 };
