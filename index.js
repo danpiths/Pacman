@@ -8,6 +8,14 @@ const gridSquares = [];
 let pacmanCurrentIndex = 490;
 let score = 0;
 
+// CREATING GHOSTS
+const ghosts = [
+  new Ghost("blinky", 347, 250),
+  new Ghost("pinky", 403, 400),
+  new Ghost("inky", 352, 300),
+  new Ghost("clyde", 408, 500),
+];
+
 // CREATING CREATE BOARD FUNCTION
 const createBoard = () => {
   for (let i = 0; i < layout.length; i++) {
@@ -26,6 +34,10 @@ const createBoard = () => {
     }
   }
   gridSquares[pacmanCurrentIndex].classList.add("pacman");
+  ghosts.forEach((ghost) => {
+    gridSquares[ghost.currentIndex].classList.add(ghost.className);
+    gridSquares[ghost.currentIndex].classList.add("ghost");
+  });
 };
 
 // CALLING CREATE BOARD
@@ -95,9 +107,21 @@ document.addEventListener("keydown", controls);
 
 // PACDOT EATING FUNCTION
 const pacdotEaten = () => {
-  if (gridSquares[pacmanCurrentIndex].classList.contains('pacdot')) {
-    gridSquares[pacmanCurrentIndex].classList.remove('pacdot');
+  if (gridSquares[pacmanCurrentIndex].classList.contains("pacdot")) {
+    gridSquares[pacmanCurrentIndex].classList.remove("pacdot");
     score++;
     scoreDisplay.innerHTML = score;
   }
-}
+};
+
+const powerPelletEaten = () => {
+  if (gridSquares[pacmanCurrentIndex].classList.contains("power-pellet")) {
+    gridSquares[pacmanCurrentIndex].classList.remove("power-pellet");
+    score += 10;
+    scoreDisplay.innerHTML = score;
+    ghosts.forEach((ghost) => (ghost.isScared = true));
+    setTimeout(() => {
+      ghosts.forEach((ghost) => (ghost.isScared = false));
+    }, 10000);
+  }
+};
