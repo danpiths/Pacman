@@ -102,6 +102,7 @@ const controls = (e) => {
   }
   gridSquares[pacmanCurrentIndex].classList.add("pacman");
   pacdotEaten();
+  powerPelletEaten();
 };
 document.addEventListener("keydown", controls);
 
