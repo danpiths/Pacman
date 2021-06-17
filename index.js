@@ -44,9 +44,9 @@ const createBoard = () => {
 createBoard();
 
 // ADDING CONTROLS
-const controls = (e) => {
+const controls = (event) => {
   gridSquares[pacmanCurrentIndex].classList.remove("pacman");
-  switch (e.code) {
+  switch (event.code) {
     case "KeyW":
     case "ArrowUp":
       if (
@@ -101,8 +101,11 @@ const controls = (e) => {
       break;
   }
   gridSquares[pacmanCurrentIndex].classList.add("pacman");
+
+  // CALLING FUNCTIONS
   pacdotEaten();
   powerPelletEaten();
+  checkGameOver();
 };
 document.addEventListener("keydown", controls);
 
@@ -154,6 +157,22 @@ const moveGhost = (ghost) => {
       score += 100;
       scoreDisplay.innerHTML = score;
     }
+
+    // CALLING FUNCTIONS
+    checkGameOver();
   }, ghost.speed)
 }
 ghosts.forEach((ghost) => {moveGhost(ghost)});
+
+// CHECKING FOR GAME OVER
+const checkGameOver = () => {
+  if (
+    gridSquares[pacmanCurrentIndex].classList.contains('ghost') &&
+    !gridSquares[pacmanCurrentIndex].classList.contains('scared-ghost')
+  ) {
+    ghosts.forEach((ghost) => clearInterval(ghost.timerId));
+    document.removeEventListener('keydown', controls);
+    gameResultText.innerHTML = `<h2 id="game-over">Game Over</h2>`
+    gameResultText.style.display = 'block';
+  }
+}

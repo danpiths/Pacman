@@ -31,6 +31,7 @@ h3 {
   height: 420px;
   display: flex;
   flex-wrap: wrap;
+  position: relative;
 }
 
 .grid > div {
@@ -64,6 +65,14 @@ h3 {
 
 #game-result-text {
   display: none;
+  position: absolute;
+  background: rgba(34, 34, 34, 0.7);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4rem;
+  text-align: center;
+  padding: 3.5em;
 }
 
 .ghost {
@@ -85,4 +94,13 @@ h3 {
 
 .clyde {
     background: #cc8f45;
+}
+
+#game-over {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: salmon;
+  font-weight: 400;
 }
