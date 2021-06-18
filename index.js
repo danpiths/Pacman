@@ -1,5 +1,10 @@
-// VARIABLE DECLARATION
+/* 
+========================
+VARIABLE DECLARATION
+========================
+*/
 import { layout, Ghost } from "./template.js";
+const startButton = document.getElementById("start-game");
 const scoreDisplay = document.getElementById("score");
 const highScoreDisplay = document.getElementById("high-score");
 const grid = document.querySelector(".grid");
@@ -243,18 +248,31 @@ const checkWinGame = () => {
 
 /* 
 ========================
-CALLING FUNCTIONS
+CALLING FUNCTIONS TO START GAME
 ========================
 */
+
+// STARTING GAME FUNCTION
+const startGame = () => {
+  // ADDING CONTROLS
+  document.addEventListener("keydown", controls);
+
+  // MOVING GHOSTS
+  ghosts.forEach((ghost) => {
+    moveGhost(ghost);
+  });
+};
+
+/* 
+========================
+STARTING GAME
+========================
+*/
+
 // CREATING BOARD
 createBoard();
 
-// ADDING CONTROLS
-document.addEventListener("keydown", controls);
-
-// MOVING GHOSTS
-ghosts.forEach((ghost) => {
-  moveGhost(ghost);
-});
+// CALLING START GAME FUNCTION ON START BUTTON CLICK
+startButton.addEventListener("click", startGame);
 
 // END
