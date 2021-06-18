@@ -5,6 +5,7 @@ VARIABLE DECLARATION
 */
 import { layout, Ghost } from "./template.js";
 const startButton = document.getElementById("start-game");
+const overlay = document.querySelector(".overlay");
 const scoreDisplay = document.getElementById("score");
 const highScoreDisplay = document.getElementById("high-score");
 const grid = document.querySelector(".grid");
@@ -254,6 +255,9 @@ CALLING FUNCTIONS TO START GAME
 
 // STARTING GAME FUNCTION
 const startGame = () => {
+  // REMOVING MODAL
+  overlay.style.display = "none";
+
   // ADDING CONTROLS
   document.addEventListener("keydown", controls);
 
