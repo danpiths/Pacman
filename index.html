@@ -13,12 +13,21 @@
     <title>Pacman</title>
   </head>
   <body>
+    <div class="overlay">
+      <div class="modal">
+        <h2>Welcome to Pacman!</h2>
+        <p>
+          This is a minimal pacman game you could play using ← ↑ → ↓ keys or
+          WASD keys [for the gamers out there ;)]
+        </p>
+        <button id="start-game">START GAME</button>
+      </div>
+    </div>
     <h1>Pacman</h1>
     <h3 class="score-h3">Score: <span id="score">0</span></h3>
     <h3 class="high-score-h3">High Score: <span id="high-score">NaN</span></h3>
     <div class="grid">
-      <div id="game-result-text">
-      </div>
+      <div id="game-result-text"></div>
     </div>
     <script type="module" src="./index.js"></script>
   </body>
