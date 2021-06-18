@@ -21,7 +21,13 @@ const ghosts = [
   new Ghost("clyde", 406, 500),
 ];
 
-// CREATING CREATE BOARD FUNCTION
+/* 
+========================
+FUNCTIONS
+========================
+*/
+
+// CREATE BOARD FUNCTION
 const createBoard = () => {
   if (highScoreFromLS) {
     highscore = highScoreFromLS;
@@ -49,10 +55,7 @@ const createBoard = () => {
   });
 };
 
-// CALLING CREATE BOARD
-createBoard();
-
-// ADDING CONTROLS
+// CONTROLS FUNCTION
 const controls = (event) => {
   gridSquares[pacmanCurrentIndex].classList.remove("pacman");
   switch (event.code) {
@@ -117,31 +120,8 @@ const controls = (event) => {
   checkGameOver();
   checkWinGame();
 };
-document.addEventListener("keydown", controls);
 
-// PACDOT EATING FUNCTION
-const pacdotEaten = () => {
-  if (gridSquares[pacmanCurrentIndex].classList.contains("pacdot")) {
-    gridSquares[pacmanCurrentIndex].classList.remove("pacdot");
-    score++;
-    scoreDisplay.innerHTML = score;
-  }
-};
-
-// POWER PELLET EATING FUNCTION
-const powerPelletEaten = () => {
-  if (gridSquares[pacmanCurrentIndex].classList.contains("power-pellet")) {
-    gridSquares[pacmanCurrentIndex].classList.remove("power-pellet");
-    score += 10;
-    scoreDisplay.innerHTML = score;
-    ghosts.forEach((ghost) => (ghost.isScared = true));
-    setTimeout(() => {
-      ghosts.forEach((ghost) => (ghost.isScared = false));
-    }, 10000);
-  }
-};
-
-// MOVING GHOSTS
+// MOVING GHOSTS FUNCTION
 const moveGhost = (ghost) => {
   const directions = [-1, +1, -width, +width];
   let moveDirection = directions[Math.floor(Math.random() * directions.length)];
@@ -180,7 +160,7 @@ const moveGhost = (ghost) => {
       ghost.currentIndex = ghost.startIndex;
       gridSquares[ghost.currentIndex].classList.add(ghost.className, "ghost");
       score += 100;
-      scoreDisplay.innerHTML = score;
+      displayScoreHTML();
     }
 
     // CALLING FUNCTIONS
@@ -188,30 +168,59 @@ const moveGhost = (ghost) => {
     checkWinGame();
   }, ghost.speed);
 };
-ghosts.forEach((ghost) => {
-  moveGhost(ghost);
-});
 
-// CHECKING FOR GAME OVER
+// DISPLAY SCORE FUNCTION
+const displayScoreHTML = () => {
+  scoreDisplay.innerHTML = score;
+};
+
+// PACDOT EATING FUNCTION
+const pacdotEaten = () => {
+  if (gridSquares[pacmanCurrentIndex].classList.contains("pacdot")) {
+    gridSquares[pacmanCurrentIndex].classList.remove("pacdot");
+    score++;
+    displayScoreHTML();
+  }
+};
+
+// POWER PELLET EATING FUNCTION
+const powerPelletEaten = () => {
+  if (gridSquares[pacmanCurrentIndex].classList.contains("power-pellet")) {
+    gridSquares[pacmanCurrentIndex].classList.remove("power-pellet");
+    score += 10;
+    displayScoreHTML();
+    ghosts.forEach((ghost) => (ghost.isScared = true));
+    setTimeout(() => {
+      ghosts.forEach((ghost) => (ghost.isScared = false));
+    }, 10000);
+  }
+};
+
+// GAME FINISHED FUNCTION
+const gameDone = () => {
+  ghosts.forEach((ghost) => clearInterval(ghost.timerId));
+  document.removeEventListener("keydown", controls);
+  gameResultText.style.display = "block";
+  if (highScoreFromLS < score) {
+    localStorage.setItem("highscore", JSON.stringify(score));
+    highScoreFromLS = JSON.parse(localStorage.getItem("highscore"));
+    highscore = highScoreFromLS;
+    highScoreDisplay.innerHTML = highscore;
+  }
+};
+
+// GAME OVER FUNCTION
 const checkGameOver = () => {
   if (
     gridSquares[pacmanCurrentIndex].classList.contains("ghost") &&
     !gridSquares[pacmanCurrentIndex].classList.contains("scared-ghost")
   ) {
-    ghosts.forEach((ghost) => clearInterval(ghost.timerId));
-    document.removeEventListener("keydown", controls);
+    gameDone();
     gameResultText.innerHTML = `<h2 id="game-over">Game Over</h2>`;
-    gameResultText.style.display = "block";
-    if (highScoreFromLS < score) {
-      localStorage.setItem("highscore", JSON.stringify(score));
-      highScoreFromLS = JSON.parse(localStorage.getItem("highscore"));
-      highscore = highScoreFromLS;
-      highScoreDisplay.innerHTML = highscore;
-    }
   }
 };
 
-// CHECKING FOR GAME WON
+// GAME WON FUNCTION
 const checkWinGame = () => {
   for (let i = 0; i < gridSquares.length; i++) {
     if (
@@ -227,15 +236,25 @@ const checkWinGame = () => {
     extraCheck = true;
   }
   if (gameWon) {
-    ghosts.forEach((ghost) => clearInterval(ghost.timerId));
-    document.removeEventListener("keydown", controls);
+    gameDone();
     gameResultText.innerHTML = `<h2 id="game-won">You Won</h2>`;
-    gameResultText.style.display = "block";
-    if (highScoreFromLS < score) {
-      localStorage.setItem("highscore", JSON.stringify(score));
-      highScoreFromLS = JSON.parse(localStorage.getItem("highscore"));
-      highscore = highScoreFromLS;
-      highScoreDisplay.innerHTML = highscore;
-    }
   }
 };
+
+/* 
+========================
+CALLING FUNCTIONS
+========================
+*/
+// CREATING BOARD
+createBoard();
+
+// ADDING CONTROLS
+document.addEventListener("keydown", controls);
+
+// MOVING GHOSTS
+ghosts.forEach((ghost) => {
+  moveGhost(ghost);
+});
+
+// END
