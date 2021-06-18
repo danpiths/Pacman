@@ -22,6 +22,63 @@ h3 {
   display: inline-block;
 }
 
+.modal {
+  background-color: #646464;
+  color: white;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 3em;
+  height: 50vh;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.modal > h2 {
+  font-size: 3rem;
+}
+
+.modal > h2 > #pacman-title {
+  color: #cfcf2e;
+}
+
+.modal > #start-button-container > #start-game {
+  display: inline-block;
+  border: none;
+  padding: 0.5em 1em;
+  background: #cfcf2e;
+  color: #222;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all 0.3s;
+  outline: none;
+}
+
+.modal > #start-button-container > #start-game:hover,
+.modal > #start-button-container > #start-game:focus {
+  color: #cfcf2e;
+  background: #222;
+}
+
 .high-score-h3 {
   margin-left: 1.5em;
 }
@@ -95,19 +152,19 @@ h3 {
 }
 
 .blinky {
-    background: #b64848;
+  background: #b64848;
 }
 
 .pinky {
-    background: #cf70a0;
+  background: #cf70a0;
 }
 
 .inky {
-    background: #75ceb0;
+  background: #75ceb0;
 }
 
 .clyde {
-    background: #cc8f45;
+  background: #cc8f45;
 }
 
 .scared-ghost {
