@@ -292,7 +292,7 @@ CALLING FUNCTIONS TO START GAME
 
 // STARTING GAME FUNCTION
 const startGame = () => {
-  console.log("clicked");
+  // PLAYER NAME CHECKING
   if (playerNameTextField.value) {
     if (playerNameTextField.value.length <= 3) {
       localStorage.setItem(
@@ -304,6 +304,8 @@ const startGame = () => {
       warningText.style.display = "block";
     }
   }
+
+  // INITIALIZING GAME
   if (warningText.style.display === "none" || playerNameFromLS) {
     // REMOVING MODAL
     overlay.style.display = "none";
