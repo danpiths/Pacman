@@ -14,6 +14,7 @@ h1 {
   font-size: 4.5rem;
   font-weight: 200;
   margin-bottom: 0.1em;
+  color: #cfcf2e;
 }
 
 h3 {
@@ -105,7 +106,7 @@ h3 {
 .modal > #start-button-container > #start-game:hover,
 .modal > #start-button-container > #start-game:focus {
   color: #cfcf2e;
-  background: #222;
+  background: rgb(50, 50, 50);
 }
 
 .high-score-h3 {
