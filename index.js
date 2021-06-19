@@ -44,7 +44,7 @@ const createBoard = () => {
       <div class="upper-part">
       <h2>Welcome back, <span id="pacman-title">${playerNameFromLS}</span>!</h2>
       <p>
-        I'm sure you know how to play Pacman, but if you still need instructions here they are :D <br />
+        I'm sure you know how to play Pacman, but if you still need instructions here they are :D <br /><br />
         This is a minimal pacman game you could play using
         <span id="yellow-text">← ↑ → ↓</span> keys or
         <span id="yellow-text">WASD</span> keys [for the gamers out there
