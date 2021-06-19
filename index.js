@@ -4,7 +4,9 @@ VARIABLE DECLARATION
 ========================
 */
 import { layout, Ghost } from "./template.js";
-const startButton = document.getElementById("start-game");
+const modal = document.querySelector(".modal");
+const playerNameTextField = document.getElementById("player-name-text-field");
+const warningText = document.getElementById("warning-text");
 const overlay = document.querySelector(".overlay");
 const scoreDisplay = document.getElementById("score");
 const highScoreDisplay = document.getElementById("high-score");
@@ -12,6 +14,7 @@ const grid = document.querySelector(".grid");
 const gameResultText = document.getElementById("game-result-text");
 const width = 28;
 const gridSquares = [];
+const playerNameFromLS = JSON.parse(localStorage.getItem("playername"));
 let highScoreFromLS = JSON.parse(localStorage.getItem("highscore"));
 let pacmanCurrentIndex = 490;
 let score = 0;
@@ -36,6 +39,34 @@ FUNCTIONS
 
 // CREATE BOARD FUNCTION
 const createBoard = () => {
+  if (playerNameFromLS) {
+    modal.innerHTML = `
+      <div class="upper-part">
+      <h2>Welcome back, <span id="pacman-title">${playerNameFromLS}</span>!</h2>
+      <p>
+        I'm sure you know how to play Pacman, but if you still need instructions here they are :D <br />
+        This is a minimal pacman game you could play using
+        <span id="yellow-text">← ↑ → ↓</span> keys or
+        <span id="yellow-text">WASD</span> keys [for the gamers out there
+        ;)] <br /><br />
+        You <span id="lose-text">LOSE</span> the game if you are eaten by
+        the ghosts when they are not <span id="purple-text">Purple</span>.
+        <br />
+        (Tip: Turn the ghosts <span id="purple-text">Purple</span> by eating
+        <span id="power-pellet-text">Power Pellets</span>) <br /><br />
+        You <span id="win-text">WIN</span> the game by eating all the
+        <span id="pacdots-text">Pacdots</span> and
+        <span id="power-pellet-text">Power Pellets</span>! <br /> <br />
+        I hope you're able to beat you previous highscore of <span id="modal-high-score">${highScoreFromLS}</span>!
+      </p>
+    </div>
+    <div class="lower-part">
+      <button id="start-game">
+        START GAME
+      </button>
+    </div>
+    `;
+  }
   if (highScoreFromLS) {
     highscore = highScoreFromLS;
     highScoreDisplay.innerHTML = highscore;
@@ -261,16 +292,30 @@ CALLING FUNCTIONS TO START GAME
 
 // STARTING GAME FUNCTION
 const startGame = () => {
-  // REMOVING MODAL
-  overlay.style.display = "none";
+  console.log("clicked");
+  if (playerNameTextField.value) {
+    if (playerNameTextField.value.length <= 3) {
+      localStorage.setItem(
+        "playername",
+        JSON.stringify(playerNameTextField.value)
+      );
+      warningText.style.display = "none";
+    } else {
+      warningText.style.display = "block";
+    }
+  }
+  if (warningText.style.display === "none" || playerNameFromLS) {
+    // REMOVING MODAL
+    overlay.style.display = "none";
 
-  // ADDING CONTROLS
-  document.addEventListener("keydown", controls);
+    // ADDING CONTROLS
+    document.addEventListener("keydown", controls);
 
-  // MOVING GHOSTS
-  ghosts.forEach((ghost) => {
-    moveGhost(ghost);
-  });
+    // MOVING GHOSTS
+    ghosts.forEach((ghost) => {
+      moveGhost(ghost);
+    });
+  }
 };
 
 /* 
@@ -283,6 +328,7 @@ STARTING GAME
 createBoard();
 
 // CALLING START GAME FUNCTION ON START BUTTON CLICK
+const startButton = document.getElementById("start-game");
 startButton.addEventListener("click", startGame);
 
 // END

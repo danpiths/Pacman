@@ -15,19 +15,32 @@
   <body>
     <div class="overlay">
       <div class="modal">
-        <h2>Welcome to <span id="pacman-title">Pacman</span>!</h2>
-        <p>
-          This is a minimal pacman game you could play using <span id="yellow-text">← ↑ → ↓</span> keys or
-          <span id="yellow-text">WASD</span> keys [for the gamers out there ;)] <br /><br />
-          You <span id="lose-text">LOSE</span> the game if you are eaten by the
-          ghosts when they are not <span id="purple-text">Purple</span>. <br />
-          (Tip: Turn the ghosts <span id="purple-text">Purple</span> by eating
-          <span id="power-pellet-text">Power Pellets</span>) <br /><br />
-          You <span id="win-text">WIN</span> the game by eating all the
-          <span id="pacdots-text">Pacdots</span> and
-          <span id="power-pellet-text">Power Pellets</span>!
-        </p>
-        <div id="start-button-container">
+        <div class="upper-part">
+          <h2>Welcome to <span id="pacman-title">Pacman</span>!</h2>
+          <p>
+            This is a minimal pacman game you could play using
+            <span id="yellow-text">← ↑ → ↓</span> keys or
+            <span id="yellow-text">WASD</span> keys [for the gamers out there
+            ;)] <br /><br />
+            You <span id="lose-text">LOSE</span> the game if you are eaten by
+            the ghosts when they are not <span id="purple-text">Purple</span>.
+            <br />
+            (Tip: Turn the ghosts <span id="purple-text">Purple</span> by eating
+            <span id="power-pellet-text">Power Pellets</span>) <br /><br />
+            You <span id="win-text">WIN</span> the game by eating all the
+            <span id="pacdots-text">Pacdots</span> and
+            <span id="power-pellet-text">Power Pellets</span>!
+          </p>
+        </div>
+        <div class="lower-part">
+          <input
+            aria-label="player name"
+            id="player-name-text-field"
+            type="text"
+            placeholder="Enter Initials Here"
+            required
+          />
+          <p id="warning-text">Please enter only 3 Initials!</p>
           <button id="start-game">START GAME</button>
         </div>
       </div>
