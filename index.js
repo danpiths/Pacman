@@ -18,6 +18,7 @@ let score = 0;
 let gameWon = false;
 let extraCheck = true;
 let highscore;
+let powerPelletTimeOut;
 
 // CREATING GHOSTS
 const ghosts = [
@@ -195,8 +196,13 @@ const powerPelletEaten = () => {
     gridSquares[pacmanCurrentIndex].classList.remove("power-pellet");
     score += 10;
     displayScoreHTML();
-    ghosts.forEach((ghost) => (ghost.isScared = true));
-    setTimeout(() => {
+    ghosts.forEach((ghost) => {
+      ghost.isScared = true;
+      if (powerPelletTimeOut) {
+        clearTimeout(powerPelletTimeOut);
+      }
+    });
+    powerPelletTimeOut = setTimeout(() => {
       ghosts.forEach((ghost) => (ghost.isScared = false));
     }, 10000);
   }
