@@ -22,6 +22,8 @@ let gameWon = false;
 let extraCheck = true;
 let highscore;
 let powerPelletTimeOut;
+let pacmanDirection = +1;
+let pacmanTimerId;
 
 // CREATING GHOSTS
 const ghosts = [
@@ -93,9 +95,8 @@ const createBoard = () => {
   });
 };
 
-// CONTROLS FUNCTION
+// PACMAN AUTO MOVEMENT
 const controls = (event) => {
-  gridSquares[pacmanCurrentIndex].classList.remove("pacman");
   switch (event.code) {
     case "KeyW":
     case "ArrowUp":
@@ -106,7 +107,7 @@ const controls = (event) => {
         !gridSquares[pacmanCurrentIndex - width].classList.contains("wall") &&
         pacmanCurrentIndex - width >= 0
       ) {
-        pacmanCurrentIndex -= width;
+        pacmanDirection = -width;
       }
       break;
     case "KeyA":
@@ -116,11 +117,7 @@ const controls = (event) => {
         !gridSquares[pacmanCurrentIndex - 1].classList.contains("wall") &&
         pacmanCurrentIndex % width !== 0
       ) {
-        pacmanCurrentIndex -= 1;
-      }
-
-      if (pacmanCurrentIndex === 364) {
-        pacmanCurrentIndex = 391;
+        pacmanDirection = -1;
       }
       break;
     case "KeyS":
@@ -132,7 +129,7 @@ const controls = (event) => {
         !gridSquares[pacmanCurrentIndex + width].classList.contains("wall") &&
         pacmanCurrentIndex + width < width * width
       ) {
-        pacmanCurrentIndex += width;
+        pacmanDirection = +width;
       }
       break;
     case "KeyD":
@@ -142,21 +139,79 @@ const controls = (event) => {
         !gridSquares[pacmanCurrentIndex + 1].classList.contains("wall") &&
         pacmanCurrentIndex % width < width - 1
       ) {
-        pacmanCurrentIndex += 1;
-      }
-
-      if (pacmanCurrentIndex === 391) {
-        pacmanCurrentIndex = 364;
+        pacmanDirection = +1;
       }
       break;
   }
-  gridSquares[pacmanCurrentIndex].classList.add("pacman");
+};
 
-  // CALLING FUNCTIONS
-  pacdotEaten();
-  powerPelletEaten();
-  checkGameOver();
-  checkWinGame();
+// CONTROLS FUNCTION
+const pacmanAutoMove = () => {
+  pacmanTimerId = setInterval(() => {
+    gridSquares[pacmanCurrentIndex].classList.remove("pacman");
+    switch (pacmanDirection) {
+      case -width:
+        if (
+          !gridSquares[pacmanCurrentIndex - width].classList.contains(
+            "ghost-lair"
+          ) &&
+          !gridSquares[pacmanCurrentIndex - width].classList.contains("wall") &&
+          pacmanCurrentIndex - width >= 0
+        ) {
+          pacmanCurrentIndex -= width;
+        }
+        break;
+      case -1:
+        if (
+          !gridSquares[pacmanCurrentIndex - 1].classList.contains(
+            "ghost-lair"
+          ) &&
+          !gridSquares[pacmanCurrentIndex - 1].classList.contains("wall") &&
+          pacmanCurrentIndex % width !== 0
+        ) {
+          pacmanCurrentIndex -= 1;
+        }
+
+        if (pacmanCurrentIndex === 364) {
+          pacmanCurrentIndex = 391;
+        }
+        break;
+      case +width:
+        if (
+          !gridSquares[pacmanCurrentIndex + width].classList.contains(
+            "ghost-lair"
+          ) &&
+          !gridSquares[pacmanCurrentIndex + width].classList.contains("wall") &&
+          pacmanCurrentIndex + width < width * width
+        ) {
+          pacmanCurrentIndex += width;
+        }
+        break;
+      case +1:
+        if (
+          !gridSquares[pacmanCurrentIndex + 1].classList.contains(
+            "ghost-lair"
+          ) &&
+          !gridSquares[pacmanCurrentIndex + 1].classList.contains("wall") &&
+          pacmanCurrentIndex % width < width - 1
+        ) {
+          pacmanCurrentIndex += 1;
+        }
+
+        if (pacmanCurrentIndex === 391) {
+          pacmanCurrentIndex = 364;
+        }
+        break;
+    }
+    gridSquares[pacmanCurrentIndex].classList.add("pacman");
+
+    // CALLING FUNCTIONS
+    pacdotEaten();
+    powerPelletEaten();
+    ghostScared();
+    checkGameOver();
+    checkWinGame();
+  }, 250);
 };
 
 // MOVING GHOSTS FUNCTION
@@ -182,7 +237,16 @@ const moveGhost = (ghost) => {
       moveDirection = directions[Math.floor(Math.random() * directions.length)];
     }
 
-    // IF GHOST IS SCARED
+    // CALLING FUNCTIONS
+    ghostScared();
+    checkGameOver();
+    checkWinGame();
+  }, ghost.speed);
+};
+
+// CHECKING SCARED GHOST
+const ghostScared = () => {
+  ghosts.forEach((ghost) => {
     if (ghost.isScared) {
       gridSquares[ghost.currentIndex].classList.add("scared-ghost");
     }
@@ -200,11 +264,7 @@ const moveGhost = (ghost) => {
       score += 100;
       displayScoreHTML();
     }
-
-    // CALLING FUNCTIONS
-    checkGameOver();
-    checkWinGame();
-  }, ghost.speed);
+  });
 };
 
 // DISPLAY SCORE FUNCTION
@@ -242,6 +302,7 @@ const powerPelletEaten = () => {
 // GAME FINISHED FUNCTION
 const gameDone = () => {
   ghosts.forEach((ghost) => clearInterval(ghost.timerId));
+  clearInterval(pacmanTimerId);
   document.removeEventListener("keydown", controls);
   gameResultText.style.display = "block";
   if (highScoreFromLS < score) {
@@ -309,6 +370,9 @@ const startGame = () => {
   if (warningText.style.display === "none" || playerNameFromLS) {
     // REMOVING MODAL
     overlay.style.display = "none";
+
+    // MOVING PACMAN
+    pacmanAutoMove();
 
     // ADDING CONTROLS
     document.addEventListener("keydown", controls);
