@@ -54,6 +54,10 @@ h3 {
   margin: 0 auto;
   padding: 3em;
   height: 75vh;
+  border-radius: 8px;
+  box-shadow: 10px 14px 17px -1px rgba(0, 0, 0, 0.84);
+  -webkit-box-shadow: 10px 14px 17px -1px rgba(0, 0, 0, 0.84);
+  -moz-box-shadow: 10px 14px 17px -1px rgba(0, 0, 0, 0.84);
   position: relative;
   top: 50%;
   transform: translateY(-50%);

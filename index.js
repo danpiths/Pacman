@@ -95,6 +95,14 @@ const createBoard = () => {
   });
 };
 
+// ENTER FUNCTION
+const enterFunction = (event) => {
+  if (event.code == "Enter") {
+    startGame();
+    window.removeEventListener("keydown", enterFunction);
+  }
+};
+
 // PACMAN AUTO MOVEMENT
 const controls = (event) => {
   switch (event.code) {
@@ -305,12 +313,6 @@ const gameDone = () => {
   clearInterval(pacmanTimerId);
   document.removeEventListener("keydown", controls);
   gameResultText.style.display = "block";
-  if (highScoreFromLS < score) {
-    localStorage.setItem("highscore", JSON.stringify(score));
-    highScoreFromLS = JSON.parse(localStorage.getItem("highscore"));
-    highscore = highScoreFromLS;
-    highScoreDisplay.innerHTML = highscore;
-  }
 };
 
 // GAME OVER FUNCTION
@@ -342,6 +344,12 @@ const checkWinGame = () => {
   if (gameWon) {
     gameDone();
     gameResultText.innerHTML = `<h2 id="game-won">You Won</h2>`;
+    if (highScoreFromLS < score) {
+      localStorage.setItem("highscore", JSON.stringify(score));
+      highScoreFromLS = JSON.parse(localStorage.getItem("highscore"));
+      highscore = highScoreFromLS;
+      highScoreDisplay.innerHTML = highscore;
+    }
   }
 };
 
@@ -396,5 +404,6 @@ createBoard();
 // CALLING START GAME FUNCTION ON START BUTTON CLICK
 const startButton = document.getElementById("start-game");
 startButton.addEventListener("click", startGame);
+window.addEventListener("keydown", enterFunction);
 
 // END
