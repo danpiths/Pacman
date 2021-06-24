@@ -8,6 +8,8 @@ const modal = document.querySelector(".modal");
 const playerNameTextField = document.getElementById("player-name-text-field");
 const warningText = document.getElementById("warning-text");
 const overlay = document.querySelector(".overlay");
+const clearLS = document.getElementById("clear-ls");
+const pausePlay = document.getElementById("pause-play");
 const scoreDisplay = document.getElementById("score");
 const highScoreDisplay = document.getElementById("high-score");
 const grid = document.querySelector(".grid");
@@ -22,8 +24,9 @@ let gameWon = false;
 let extraCheck = true;
 let highscore;
 let powerPelletTimeOut;
-let pacmanDirection = +1;
+let pacmanDirection;
 let pacmanTimerId;
+let gameState = "Playing";
 
 // CREATING GHOSTS
 const ghosts = [
@@ -307,12 +310,17 @@ const powerPelletEaten = () => {
   }
 };
 
-// GAME FINISHED FUNCTION
-const gameDone = () => {
+// GAME PAUSE FUNCTION
+const gamePause = () => {
   ghosts.forEach((ghost) => clearInterval(ghost.timerId));
   clearInterval(pacmanTimerId);
   document.removeEventListener("keydown", controls);
-  gameResultText.style.display = "block";
+  gameState = "Paused";
+};
+
+const gamePlay = () => {
+  startGame();
+  gameState = "Playing";
 };
 
 // GAME OVER FUNCTION
@@ -321,8 +329,16 @@ const checkGameOver = () => {
     gridSquares[pacmanCurrentIndex].classList.contains("ghost") &&
     !gridSquares[pacmanCurrentIndex].classList.contains("scared-ghost")
   ) {
-    gameDone();
+    gamePause();
     gameResultText.innerHTML = `<h2 id="game-over">Game Over</h2>`;
+    gameResultText.style.display = "block";
+    pausePlay.removeEventListener("click", () => {
+      if (gameState === "Playing") {
+        gamePause();
+      } else if (gameState === "Paused") {
+        gamePlay();
+      }
+    });
   }
 };
 
@@ -342,14 +358,22 @@ const checkWinGame = () => {
     extraCheck = true;
   }
   if (gameWon) {
-    gameDone();
+    gamePause();
     gameResultText.innerHTML = `<h2 id="game-won">You Won</h2>`;
+    gameResultText.style.display = "block";
     if (highScoreFromLS < score) {
       localStorage.setItem("highscore", JSON.stringify(score));
       highScoreFromLS = JSON.parse(localStorage.getItem("highscore"));
       highscore = highScoreFromLS;
       highScoreDisplay.innerHTML = highscore;
     }
+    pausePlay.removeEventListener("click", () => {
+      if (gameState === "Playing") {
+        gamePause();
+      } else if (gameState === "Paused") {
+        gamePlay();
+      }
+    });
   }
 };
 
@@ -405,5 +429,14 @@ createBoard();
 const startButton = document.getElementById("start-game");
 startButton.addEventListener("click", startGame);
 window.addEventListener("keydown", enterFunction);
+pausePlay.addEventListener("click", () => {
+  if (gameState === "Playing") {
+    gamePause();
+    pausePlay.innerText = "▷";
+  } else if (gameState === "Paused") {
+    gamePlay();
+    pausePlay.innerText = "||";
+  }
+});
 
 // END
