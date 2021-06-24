@@ -8,7 +8,7 @@ const modal = document.querySelector(".modal");
 const playerNameTextField = document.getElementById("player-name-text-field");
 const warningText = document.getElementById("warning-text");
 const overlay = document.querySelector(".overlay");
-const clearLS = document.getElementById("clear-ls");
+let clearLS;
 const pausePlay = document.getElementById("pause-play");
 const scoreDisplay = document.getElementById("score");
 const highScoreDisplay = document.getElementById("high-score");
@@ -46,9 +46,9 @@ FUNCTIONS
 const createBoard = () => {
   if (playerNameFromLS) {
     modal.innerHTML = `
-      <div class="upper-part">
-      <h2>Welcome back, <span id="pacman-title">${playerNameFromLS}</span>!</h2>
-      <p>
+    <div class="upper-part">
+    <h2>Welcome back, <span id="pacman-title">${playerNameFromLS}</span>!</h2>
+    <p>
         I'm sure you know how to play Pacman, but if you still need instructions here they are :D <br /><br />
         This is a minimal pacman game you could play using
         <span id="yellow-text">← ↑ → ↓</span> keys or
@@ -63,14 +63,16 @@ const createBoard = () => {
         <span id="pacdots-text">Pacdots</span> and
         <span id="power-pellet-text">Power Pellets</span>! <br /> <br />
         I hope you're able to beat you previous highscore of <span id="modal-high-score">${highScoreFromLS}</span>!
-      </p>
-    </div>
-    <div class="lower-part">
-      <button id="start-game">
+        </p>
+        </div>
+        <div class="lower-part">
+        <button class="btn" id="clear-ls">Clear Name / Highscore</button>
+        <button class="btn" id="start-game">
         START GAME
-      </button>
-    </div>
-    `;
+        </button>
+        </div>
+        `;
+    clearLS = document.getElementById("clear-ls");
   }
   if (highScoreFromLS) {
     highscore = highScoreFromLS;
@@ -377,6 +379,13 @@ const checkWinGame = () => {
   }
 };
 
+// CLEAR INFO
+const clearInfo = () => {
+  localStorage.removeItem("playername");
+  localStorage.removeItem("highscore");
+  document.location.reload(true);
+};
+
 /* 
 ========================
 CALLING FUNCTIONS TO START GAME
@@ -428,6 +437,9 @@ createBoard();
 // CALLING START GAME FUNCTION ON START BUTTON CLICK
 const startButton = document.getElementById("start-game");
 startButton.addEventListener("click", startGame);
+if (playerNameFromLS || highScoreFromLS) {
+  clearLS.addEventListener("click", clearInfo);
+}
 window.addEventListener("keydown", enterFunction);
 pausePlay.addEventListener("click", () => {
   if (gameState === "Playing") {
