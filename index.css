@@ -23,6 +23,15 @@ h3 {
   display: inline-block;
 }
 
+li {
+  text-align: left;
+  font-size: 0.85rem;
+}
+
+ul {
+  margin-bottom: 0.5em;
+}
+
 #purple-text {
   color: #8154aa;
 }
@@ -81,11 +90,11 @@ h3 {
 
 .modal > .upper-part > p {
   text-align: left;
-  font-size: 1rem;
+  font-size: 0.85rem;
 }
 
 .modal > .upper-part > h2 {
-  font-size: 2.9rem;
+  font-size: 2.5rem;
   margin-bottom: 0.2em;
 }
 
@@ -133,7 +142,7 @@ input:focus {
   background: #cfcf2e;
   color: #222;
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1rem;
   letter-spacing: 1px;
   cursor: pointer;
   transition: all 0.3s;
@@ -147,6 +156,7 @@ input:focus {
 }
 
 #clear-ls {
+  margin-top: 0.5em;
   margin-bottom: 0.5em;
 }
 
@@ -158,7 +168,7 @@ input:focus {
 
 #modal-high-score {
   color: #cfcf2e;
-  font-size: 1.4rem;
+  font-size: 1.2rem;
 }
 
 #warning-text {

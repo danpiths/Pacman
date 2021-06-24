@@ -47,8 +47,8 @@ const createBoard = () => {
   if (playerNameFromLS) {
     modal.innerHTML = `
     <div class="upper-part">
-    <h2>Welcome back, <span id="pacman-title">${playerNameFromLS}</span>!</h2>
-    <p>
+      <h2>Welcome back, <span id="pacman-title">${playerNameFromLS}</span>!</h2>
+      <p>
         I'm sure you know how to play Pacman, but if you still need instructions here they are :D <br /><br />
         This is a minimal pacman game you could play using
         <span id="yellow-text">← ↑ → ↓</span> keys or
@@ -62,15 +62,24 @@ const createBoard = () => {
         You <span id="win-text">WIN</span> the game by eating all the
         <span id="pacdots-text">Pacdots</span> and
         <span id="power-pellet-text">Power Pellets</span>! <br /> <br />
-        I hope you're able to beat you previous highscore of <span id="modal-high-score">${highScoreFromLS}</span>!
-        </p>
-        </div>
-        <div class="lower-part">
-        <button class="btn" id="clear-ls">Clear Name / Highscore</button>
-        <button class="btn" id="start-game">
-        START GAME
-        </button>
-        </div>
+        Scoring System:
+      </p>
+      <ul>
+        <li>Eating a <span id="pacdots-text">Pacdot</span> = 1 Point</li>
+        <li>
+          Eating a <span id="power-pellet-text">Power Pellet</span> = 10
+          Points
+        </li>
+        <li>Eating a <span id="purple-text">Ghost</span> = 100 Points</li>
+      </ul>
+      <p>
+        I hope you're able to beat you previous highscore of <span id="modal-high-score">${highScoreFromLS}</span>! <br /> <br />
+      </p>
+    </div>
+    <div class="lower-part">
+      <button class="btn" id="clear-ls">Clear Name / Highscore</button>
+      <button class="btn" id="start-game">START GAME</button>
+    </div>
         `;
     clearLS = document.getElementById("clear-ls");
   }
